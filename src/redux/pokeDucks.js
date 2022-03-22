@@ -83,14 +83,12 @@ export const menosPokemonesAction = () => async (dispatch, getState) => {
   const previous = getState().pokemones.previous;
 
   if (localStorage.getItem(previous)) {
-    console.log("funciona");
     dispatch({
       type: MENOS_POKEMONES_EXITO,
       payload: JSON.parse(localStorage.getItem(previous)),
     });
     return;
   } else if (localStorage.getItem("offset=0")) {
-    console.log("funciona offset");
     dispatch({
       type: MENOS_POKEMONES_EXITO,
       payload: JSON.parse(localStorage.getItem("offset=0")),
@@ -109,21 +107,44 @@ export const menosPokemonesAction = () => async (dispatch, getState) => {
 };
 
 export const PokeDetalleAction =
-  (url = "https://pokeapi.co/api/v2/pokemon/1/") =>
+  (url = null) =>
   async (dispatch) => {
-    try {
-      const res = await axios.get(url);
-
+    if (localStorage.getItem(url)) {
+      console.log("desde localstorage");
       dispatch({
         type: POKEMON_DETALLE_EXITO,
-        payload: {
-          name: res.data.name,
-          height: res.data.height,
-          weight: res.data.weight,
-          img: res.data.sprites.front_default,
-        },
+        payload: JSON.parse(localStorage.getItem(url)),
       });
-    } catch (error) {
-      console.log("ERROR!!!!" + error);
+      return;
+    } else {
+      console.log("desde appi");
+      if (!url) {
+        return;
+      } else {
+        try {
+          const res = await axios.get(url);
+
+          dispatch({
+            type: POKEMON_DETALLE_EXITO,
+            payload: {
+              name: res.data.name,
+              height: res.data.height,
+              weight: res.data.weight,
+              img: res.data.sprites.front_default,
+            },
+          });
+          localStorage.setItem(
+            url,
+            JSON.stringify({
+              name: res.data.name,
+              height: res.data.height,
+              weight: res.data.weight,
+              img: res.data.sprites.front_default,
+            })
+          );
+        } catch (error) {
+          console.log("ERROR!!!!" + error);
+        }
+      }
     }
   };
