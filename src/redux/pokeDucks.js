@@ -117,7 +117,7 @@ export const PokeDetalleAction =
       });
       return;
     } else {
-      console.log("desde appi");
+      // console.log("desde appi");
       if (!url) {
         return;
       } else {

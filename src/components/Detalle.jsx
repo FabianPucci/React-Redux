@@ -9,7 +9,7 @@ const Detalle = () => {
     const FetchData = () => {
       dispatch(PokeDetalleAction());
     };
-    console.log("efect");
+    // console.log("efect");
     FetchData();
   }, [dispatch]);
 
@@ -22,7 +22,7 @@ const Detalle = () => {
         <img src={pokemon.img} alt="" className="img-fluid" />
         <div className="car-tittle text-uppercase">{pokemon.name}</div>
         <p className="class-text">
-          Alto: {pokemon.height}/ Peso:{pokemon.weight}
+          Alto: {pokemon.height}/ Ancho:{pokemon.weight}
         </p>
       </div>
     </div>

@@ -1,17 +1,23 @@
 import React from "react";
 import Pokemones from "./components/Pokemones";
-import { Provider } from "react-redux";
-import generateStore from "./redux/store";
+import { firebase } from "./firebase/firebase.js";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NavBar from "./components/NavBar";
+import Login from "./components/Login";
 
 function App() {
-  const store = generateStore();
+  console.log(firebase);
 
   return (
-    <Provider store={store}>
+    <BrowserRouter>
       <div className="container mt-3">
-        <Pokemones />
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Pokemones />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
       </div>
-    </Provider>
+    </BrowserRouter>
   );
 }
 
