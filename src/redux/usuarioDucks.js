@@ -1,4 +1,5 @@
 import { firebase, auth } from "../firebase/firebase.js";
+
 //data incial
 const dataInicial = {
   loading: false,
@@ -9,6 +10,8 @@ const dataInicial = {
 const LOADING = "LOADING";
 const USUARIO_ERROR = "USUARIO_ERROR";
 const USUARIO_EXITO = "USUARIO_EXITO";
+const CERRAR_SESION = "CERRAR_SESION";
+
 //reducer
 export default function usuariosReducer(state = dataInicial, action) {
   switch (action.type) {
@@ -17,7 +20,9 @@ export default function usuariosReducer(state = dataInicial, action) {
     case USUARIO_ERROR:
       return { ...dataInicial };
     case USUARIO_EXITO:
-      return { ...state, loading: false, user: action.payload };
+      return { ...state, loading: false, user: action.payload, activo: true };
+    case CERRAR_SESION:
+      return { ...dataInicial };
     default:
       return { ...state };
   }
@@ -32,6 +37,7 @@ export const IngresoUsuarioAction = () => async (dispatch) => {
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
     const res = await auth.signInWithPopup(provider);
+    console.log(res);
     dispatch({
       type: USUARIO_EXITO,
       payload: {
@@ -40,7 +46,7 @@ export const IngresoUsuarioAction = () => async (dispatch) => {
       },
     });
     localStorage.setItem(
-      res.user.email,
+      "usuario",
       JSON.stringify({
         uid: res.user.uid,
         email: res.user.email,
@@ -52,4 +58,21 @@ export const IngresoUsuarioAction = () => async (dispatch) => {
       type: USUARIO_ERROR,
     });
   }
+};
+
+export const leerUsuarioAction = () => (dispatch) => {
+  if (localStorage.getItem("usuario")) {
+    dispatch({
+      type: USUARIO_EXITO,
+      payload: JSON.parse(localStorage.getItem("usuario")),
+    });
+  }
+};
+
+export const cerrarSesionAction = () => (dispatch) => {
+  auth.signOut();
+  dispatch({
+    type: CERRAR_SESION,
+  });
+  localStorage.removeItem("usuario");
 };

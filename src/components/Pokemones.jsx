@@ -7,16 +7,22 @@ import {
   PokeDetalleAction,
 } from "../redux/pokeDucks";
 import Detalle from "./Detalle";
+import { useNavigate } from "react-router-dom";
 
 const Pokemones = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const pokemones = useSelector((store) => store.pokemones.results);
-
   const next = useSelector((store) => store.pokemones.next);
-
   const previous = useSelector((store) => store.pokemones.previous);
+  const activo = useSelector((store) => store.usuario.activo);
 
+  React.useEffect(() => {
+    if (activo === false) {
+      navigate("/login");
+    }
+  }, [activo, navigate]);
   // console.log(previous);
   // console.log(pokemones);
   // console.log(next);
