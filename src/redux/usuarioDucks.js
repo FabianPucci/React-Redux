@@ -1,4 +1,4 @@
-import { firebase, auth } from "../firebase/firebase.js";
+import { firebase, auth, dataBase } from "../firebase/firebase.js";
 
 //data incial
 const dataInicial = {
@@ -37,21 +37,49 @@ export const IngresoUsuarioAction = () => async (dispatch) => {
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
     const res = await auth.signInWithPopup(provider);
-    console.log(res);
-    dispatch({
-      type: USUARIO_EXITO,
-      payload: {
-        uid: res.user.uid,
-        email: res.user.email,
-      },
-    });
-    localStorage.setItem(
-      "usuario",
-      JSON.stringify({
-        uid: res.user.uid,
-        email: res.user.email,
-      })
-    );
+    // console.log(res);
+    const usuario = {
+      uid: res.user.uid,
+      email: res.user.email,
+      displayName: res.user.displayName,
+      photoURL: res.user.photoURL,
+    };
+    const usuarioDataBase = await dataBase
+      .collection("usuarios")
+      .doc(usuario.email)
+      .get();
+
+    if (usuarioDataBase.exists) {
+      console.log("usuario existe");
+      dispatch({
+        type: USUARIO_EXITO,
+        payload: usuarioDataBase.data(),
+      });
+      localStorage.setItem("usuario", JSON.stringify(usuarioDataBase.data()));
+    } else {
+      console.log(" usuario no existe");
+
+      await dataBase.collection("usuarios").doc(usuario.email).set(usuario);
+      dispatch({
+        type: USUARIO_EXITO,
+        payload: {
+          uid: res.user.uid,
+          email: res.user.email,
+          displayName: res.user.displayName,
+          photoURL: res.user.photoURL,
+        },
+      });
+      localStorage.setItem(
+        "usuario",
+        JSON.stringify({
+          uid: res.user.uid,
+          email: res.user.email,
+          displayName: res.user.displayName,
+          photoURL: res.user.photoURL,
+        })
+      );
+    }
+    console.log(usuarioDataBase);
   } catch (error) {
     console.log(error);
     dispatch({
