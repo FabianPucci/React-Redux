@@ -1,6 +1,8 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
+
 const firebaseConfig = {
   apiKey: "AIzaSyA3rq-1eAIRdELtShn7CJngyHtC8YICdN8",
   authDomain: "react-redux-8ddaf.firebaseapp.com",
@@ -14,5 +16,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const dataBase = firebase.firestore();
+const storage = firebase.storage();
 
-export { auth, firebase, dataBase };
+export { auth, firebase, dataBase, storage };
