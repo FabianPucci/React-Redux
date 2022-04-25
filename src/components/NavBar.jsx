@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { cerrarSesionAction } from "../redux/usuarioDucks";
+import pokemonLogo from "../Images/pokemonLogo.png";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const NavBar = () => {
   return (
     <div className="navbar navbar-dark bg-dark">
       <NavLink className="navbar-brand" to="/">
-        PokeApp
+        <img src={pokemonLogo} width="150px" alt="" />
       </NavLink>
       <div className="d-flex">
         {activo ? (

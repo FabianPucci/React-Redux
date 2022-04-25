@@ -102,6 +102,7 @@ export const cerrarSesionAction = () => (dispatch) => {
   dispatch({
     type: CERRAR_SESION,
   });
+
   localStorage.removeItem("usuario");
 };
 

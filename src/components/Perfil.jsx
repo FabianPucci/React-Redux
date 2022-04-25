@@ -13,7 +13,7 @@ const Perfil = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [modoEdicion, setModoEdicion] = useState(false);
-  const [nombreUsuario, setNombreUsuario] = useState(usuario.displayName);
+  const [nombreUsuario, setNombreUsuario] = useState("");
   const [error, setError] = useState(null);
 
   React.useEffect(() => {
@@ -21,7 +21,7 @@ const Perfil = () => {
       navigate("/login");
     }
   }, [usuario, navigate]);
-  // console.log(usuario);
+  console.log(usuario);
 
   const handleClick = (e) => {
     if (!nombreUsuario.trim()) {
@@ -67,7 +67,7 @@ const Perfil = () => {
       {usuario ? (
         <div className="card">
           <div className="card-body">
-            <img src={usuario.photoURL} alt="" />
+            <img src={usuario.photoURL} alt="" className="img-thumbnail " />
             <h5 className="card-title">{usuario.displayName}</h5>
             <p className="card-text">Email: {usuario.email}</p>
             <button className="btn btn-dark" onClick={() => HandleEdit()}>
@@ -95,6 +95,7 @@ const Perfil = () => {
                     <input
                       type="text"
                       className="form-control"
+                      placeholder="Insert new name"
                       value={nombreUsuario}
                       onChange={(e) => setNombreUsuario(e.target.value)}
                     />
@@ -120,6 +121,7 @@ const Perfil = () => {
                   type="file"
                   id="formFile"
                   style={{ display: "none" }}
+                  disabled={loading}
                   onChange={(e) => handleImg(e)}
                 />
               </div>
