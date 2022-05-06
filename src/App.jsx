@@ -23,7 +23,10 @@ function App() {
   }, []);
   return googleUser !== false ? (
     <BrowserRouter>
-      <div className="container mt-3">
+      <div
+        className="container-md "
+        style={{ width: "70%", background: "#ffcb05" }}
+      >
         <NavBar />
         <Routes>
           <Route path="/" element={<Pokemones />} />

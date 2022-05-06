@@ -8,6 +8,7 @@ import {
 } from "../redux/pokeDucks";
 import Detalle from "./Detalle";
 import { useNavigate } from "react-router-dom";
+import info from "../Images/info.png";
 
 const Pokemones = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const Pokemones = () => {
           )}
           {next && (
             <button
-              className="btn btn-warning mx-4"
+              className="btn btn-success mx-4"
               onClick={() => dispatch(masPokemonesAction())}
             >
               Next Pokemons
@@ -58,15 +59,15 @@ const Pokemones = () => {
             </button>
           )}
         </div>
-        <ul className="list-group mt-3">
+        <ul className="list-group mt-3 ">
           {pokemones.map((item) => (
-            <li key={item.name} className="list-group-item text-uppercase">
+            <li key={item.name} className="list-group-item text-uppercase ">
               {item.name}
               <button
                 className="btn btn-dark  float-end"
                 onClick={() => dispatch(PokeDetalleAction(item.url))}
               >
-                Info
+                <img src={info} style={{ width: "50%" }} alt="" />
               </button>
             </li>
           ))}
